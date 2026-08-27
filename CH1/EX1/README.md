@@ -1,3 +1,3 @@
-# _Exercise 1_
+## _observations_
 
 Before including `exp`, `nm` shows only a few symbols, including `main`. The command `otool -L` shows that the program depends on `libc++` and `libSystem`. After including `exp`, `nm` shows an additional unresolved symbol, `_exp`, indicating that the program is using the exp function from an external library. However, the shared libraries listed by `otool -L` remain the same. When `exp` is given a variable as its argument, the `nm` output becomes much longer because the program also uses additional C++ functionality for input and output. The shared libraries remain unchanged again.

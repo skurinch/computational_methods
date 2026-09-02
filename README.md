@@ -5,7 +5,7 @@ This is my code repository for PHYS 3274 Computational Methods at the University
 ## Table of Contents
 | Folder    | Chapter                                  | _Observations_
 | --------  | ---------------------------------------- | ----
-| `CH1`     | Building Programs in a Linux Environment | EX1, EX3, EX4, EX7
+| `CH1`     | Building Programs in a Linux Environment | EX1, EX3, EX4, EX7, EX10
 
 
 

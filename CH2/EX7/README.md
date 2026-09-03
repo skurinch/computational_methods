@@ -1,5 +1,3 @@
-## _observations_
-
 For the step potential
 
 $$ V(x)=

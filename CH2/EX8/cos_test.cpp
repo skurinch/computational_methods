@@ -8,7 +8,7 @@ int main() {
 
         std::cout << "x = " << x
                   << "\t cos(ix) = " << std::cos(i * x)
-                  << "\t  i*cosh(x) = " << i * std::cosh(x)
+                  << "\t  cosh(x) = " << std::cosh(x)
                   << '\n';
     }
 }

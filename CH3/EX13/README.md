@@ -17,7 +17,7 @@ This gives me the normal-mode frequencies `\omega_j` and eigenvectors `v_j` dire
 The initial displacement is
 
 $$
-x(0)=(-2,\;3,\;0,\;-3,\;2),
+x(0)=(-2,\\;3,\\;0,\\;-3,\\;2),
 $$
 
 with all of the masses initially at rest. I decompose this initial displacement into the normal modes and then evolve each mode independently. Since the initial velocities are zero, each mode just oscillates as

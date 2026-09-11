@@ -1,55 +1,24 @@
-This program numerically solves the time-independent Schrödinger equation for a particle scattering from the piecewise-constant potential
+This code calculates the reflection $R$ and transmission $T$ probabilities for a particle moving through a three-region potential:
 
-$$
-V(x)=
-\begin{cases}
- 0, & x<-2a,\\
- V_0, & -2a<x<-a,\\
- 2V_0, & -a<x<a,\\
- V_0, & a<x<2a,\\
- 0, & x>2a.
-\end{cases}
-$$
+$V_0 \rightarrow 2V_0 \rightarrow V_0$.
 
-The calculation uses the dimensionless quantities
+It uses the transfer-matrix method. Each region gets a $2\times2$ matrix, and the three matrices are multiplied together:
 
-$$
-\frac{V_0}{E} \qquad\text{and}\qquad ka.
-$$
+$M=M_3M_2M_1$.
 
-In the code, `V0` represents $V_0/E$ and `k` represents $ka$, so no separate value of $E$ is needed. The `Matrix2` structure stores a $2\times2$ transfer matrix. For a region of constant potential, the `propagation` function returns a matrix that propagates the wavefunction and its derivative across the region. The function `multiply` performs $2\times2$ matrix multiplication. The three non-zero potential regions are represented by `M1`, `M2`, and `M3`. The total transfer matrix is stored in `M`,
+For regions where $V<E$, the matrix uses sin and cos. For regions where $V>E$, it uses sinh and cosh.
 
-$$
-M=M_3 M_2 M_1.
-$$
+The total matrix is then used to find the reflection and transmission amplitudes, $r$ and $t$:
 
-The `propagation` function uses trigonometric functions when $V<E$ and hyperbolic functions when $V>E$. The special case $V=E$ is handled separately to avoid division by zero.
+``r = -(B - I*k*A) / (B + I*k*A);`` \
+``t = 2.0*I*k / (B + I*k*A);``
 
-The reflection and transmission amplitudes, `r` and `t`, are obtained from the boundary conditions for the incoming, reflected, and transmitted waves. The reflection and transmission probabilities are then calculated as
+The probabilities are their squared magnitudes:
 
-$$
-R = |r|^2, \qquad T=|t|^2.
-$$
+$R=|r|^2,\qquad T=|t|^2$.
 
-These are stored in the variables `R` and `T`. Since the potential is zero on both sides of the barrier, probability conservation provides the check
+Finally, the code prints $R+T$ as a check. Since there is no absorption, we expect
 
-$$
-R+T=1.
-$$
+$R+T\approx1$.
 
-The `main` function varies `V0` from $0.1$ to $3.0$ while fixing $k = 2.0$. It prints `V0`, `k`, `R`, `T`, and `R+T` to the terminal, like so:
-
-```shell
-(base) shalinikv@Shalinis-MacBook-Pro EX7 % ./schrodinger                     
- V0/E    ka       R        T        R+T
-0.100000 2.000000 0.000476 0.999524 1.000000
-0.200000 2.000000 0.002399 0.997601 1.000000
-0.300000 2.000000 0.008124 0.991876 1.000000
-0.400000 2.000000 0.077054 0.922946 1.000000
-0.500000 2.000000 0.562216 0.437784 1.000000
-0.600000 2.000000 0.936859 0.063141 1.000000
-0.700000 2.000000 0.991943 0.008057 1.000000
-0.800000 2.000000 0.998732 0.001268 1.000000
-0.900000 2.000000 0.999758 0.000242 1.000000
-1.000000 2.000000 0.999946 0.000054 1.000000
-```
+The calculation is repeated for $V_0=0.1$ through $1.0$.

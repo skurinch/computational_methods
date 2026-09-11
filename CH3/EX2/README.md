@@ -27,34 +27,31 @@ Therefore,
 
 $$
 \begin{align*}
-\frac{d}{dt}
-\begin{pmatrix}
-    x_b\\
-    x_t\\
-    x_p
-\end{pmatrix}
-&=
-\begin{pmatrix}
-    -\lambda_b & 0 & 0\\
-    \lambda_b & -\lambda_t & 0\\
-    0 & \lambda_t & -\lambda_p
-\end{pmatrix}
-\begin{pmatrix}
-    x_b\\
-    x_t\\
-    x_p
-\end{pmatrix} \\
-
-\implies
-
-\Lambda
-&=
-\begin{pmatrix}
-    -0.015 & 0 & 0\\
-    0.015 & -0.315 & 0\\
-    0 & 0.315 & -0.003
-\end{pmatrix}
-
+    \frac{d}{dt}
+    \begin{pmatrix}
+        x_b\\
+        x_t\\
+        x_p
+    \end{pmatrix}
+    &=
+    \begin{pmatrix}
+        -\lambda_b & 0 & 0\\
+        \lambda_b & -\lambda_t & 0\\
+        0 & \lambda_t & -\lambda_p
+    \end{pmatrix}
+    \begin{pmatrix}
+        x_b\\
+        x_t\\
+        x_p
+    \end{pmatrix} \\
+    \implies
+    \Lambda
+    &=
+    \begin{pmatrix}
+        -0.015 & 0 & 0\\
+        0.015 & -0.315 & 0\\
+        0 & 0.315 & -0.003
+    \end{pmatrix}
 \end{align*}
 $$
 

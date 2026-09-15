@@ -3,8 +3,9 @@
 #include <iostream>
 #include <complex>
 #include <cmath>
-
+#include <numbers>
 int main() {
+  using std::numbers::pi;
     std::complex<double> A[3][3];
     std::cout << "Enter the 3x3 matrix:\n";
     for (int i = 0; i < 3; i++)
@@ -25,17 +26,26 @@ int main() {
 
     // Solve cubic equation
     std::complex<double> a = -c2, b = c1, c = -c0;
-    std::complex<double> p = b - a*a/3.0;
-    std::complex<double> q = 2.0*a*a*a/27.0 - a*b/3.0 + c;
-    std::complex<double> d = std::sqrt(q*q/4.0 + p*p*p/27.0);
-    std::complex<double> u = std::pow(-q/2.0 + d, 1.0/3.0);
-    std::complex<double> v = std::pow(-q/2.0 - d, 1.0/3.0);
+    std::complex<double> p = b - a*a/3.0; // -3Q
+    std::complex<double> q = 2.0*a*a*a/27.0 - a*b/3.0 + c;  //2R
+
+    std::complex<double> theta = std::acos(q*std::pow(-p/3.0,-1.5)/2.0);
+    std::complex<double> eigenvalues[3];
+    eigenvalues[0] = -2.0*std::sqrt(-p/3.0)*std::cos(theta/3.0)-a/3.0;
+    eigenvalues[1] = -2.0*std::sqrt(-p/3.0)*std::cos((theta+2.0*pi)/3.0)-a/3.0;
+    eigenvalues[2] = -2.0*std::sqrt(-p/3.0)*std::cos((theta-2.0*pi)/3.0)-a/3.0;
+
+    //std::complex<double> d = std::sqrt(q*q/4.0 + p*p*p/27.0);
+    //std::complex<double> u = std::pow(-q/2.0 + d, 1.0/3.0);
+    //std::complex<double> v = std::pow(-q/2.0 - d, 1.0/3.0);
+
+    
     std::complex<double> w(-0.5, std::sqrt(3.0)/2.0);
 
-    std::complex<double> eigenvalues[3];
-    eigenvalues[0] = u + v - a/3.0;
-    eigenvalues[1] = w*u + std::conj(w)*v - a/3.0;
-    eigenvalues[2] = std::conj(w)*u + w*v - a/3.0;
+    //    std::complex<double> eigenvalues[3];
+    //    eigenvalues[0] = u + v - a/3.0;
+    //    eigenvalues[1] = w*u + std::conj(w)*v - a/3.0;
+    //    eigenvalues[2] = std::conj(w)*u + w*v - a/3.0;
 
     // Matrix P: columns are normalized eigenvectors
     std::complex<double> P[3][3];

@@ -1,0 +1,1 @@
+For my other function, I used $f(x) = x^2 e^{−x^2}$ from the `F1D` adapter. _Note that at the moment, I was not able to get the plot labels to show._

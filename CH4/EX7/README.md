@@ -1,0 +1,2 @@
+I used the `LAGRANGEINTERPOLATOR` to interpolate between the wavelength and index of refraction data for water. Overall, the interpolation follows the input points pretty well and gives a smooth curve between them.
+One issue is that the curve undershoots near the two ends of the wavelength range. This is likely due to the behavior of the Lagrange polynomial near the boundaries, where the interpolation is more sensitive to the nearby data points. In the middle of the range, the interpolation looks much better and follows the expected trend of the data.

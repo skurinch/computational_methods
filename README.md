@@ -9,6 +9,7 @@ This is my code repository for PHYS 3274 Computational Methods at the University
 | `CH2`     | Encapsulation and the C++ Class          | EX2, EX7, EX8, EX10
 | `CH3`     | Some Useful Classes with Applications    | EX1, EX2, EX7, EX13...
 | `CH4`     | Interpolation and Extrapolation          | EX7, EX8
+| `CH4`     | Numerical Quadrature                     | EX1, EX2
 
 
 

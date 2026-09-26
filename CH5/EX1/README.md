@@ -1,14 +1,14 @@
 I used QAT's quadrature routines to compute the integrals using the midpoint, trapezoidal, and Simpson's rules.
 
-The exact solutions are:
+The exact solutions are, with the help of Mathematica:
 
 $$
 \begin{align*}
-\int_0^1 \tanh(x)\,dx &= \ln(\cosh 1) \\
-\int_0^1 \sqrt{\coth(x)}\,dx &=
+\int_0^1 \tanh(x)\\,dx &= \ln(\cosh 1) \\
+\int_0^1 \sqrt{\coth(x)}\\,dx &=
   \frac{\pi}{2}
-  +\operatorname{ArcCoth}\left(\sqrt{\coth 1}\right)
-  -\operatorname{ArcTan}\left(\sqrt{\coth 1}\right)
+  +\mathrm{ArcCoth}\left(\sqrt{\coth 1}\right)
+  -\mathrm{ArcTan}\left(\sqrt{\coth 1}\right)
 \end{align*}
 $$
 

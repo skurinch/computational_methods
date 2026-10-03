@@ -1,0 +1,21 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '../local/bin/polarization'
+relocations:
+  - { offset: 0x2682, size: 0x8, addend: 0x0, symName: __ZStL8__ioinit, symObjAddr: 0x124B6, symBinAddr: 0x100008000, symSize: 0x0 }
+  - { offset: 0x2AF0, size: 0x8, addend: 0x0, symName: __GLOBAL__sub_I_polarization.cpp, symObjAddr: 0x17A0, symBinAddr: 0x100001DB4, symSize: 0x14 }
+  - { offset: 0x2B07, size: 0x8, addend: 0x0, symName: __Z41__static_initialization_and_destruction_0v, symObjAddr: 0x1764, symBinAddr: 0x100001D78, symSize: 0x3C }
+  - { offset: 0x2B3C, size: 0x8, addend: 0x0, symName: _main, symObjAddr: 0x1520, symBinAddr: 0x100001BE0, symSize: 0x198 }
+  - { offset: 0x2BDF, size: 0x8, addend: 0x0, symName: __ZmlRK13MuellerMatrixRK12StokesVector, symObjAddr: 0x11F0, symBinAddr: 0x1000018B0, symSize: 0x330 }
+  - { offset: 0x2C6A, size: 0x8, addend: 0x0, symName: __ZmlRK13MuellerMatrixS1_, symObjAddr: 0x1100, symBinAddr: 0x1000017C0, symSize: 0xF0 }
+  - { offset: 0x2D3E, size: 0x8, addend: 0x0, symName: __ZlsRSoRK13MuellerMatrix, symObjAddr: 0xD2C, symBinAddr: 0x1000013EC, symSize: 0x3D4 }
+  - { offset: 0x2D81, size: 0x8, addend: 0x0, symName: __ZNK13MuellerMatrixclEjj, symObjAddr: 0xB38, symBinAddr: 0x1000011F8, symSize: 0x1F4 }
+  - { offset: 0x2DCA, size: 0x8, addend: 0x0, symName: __ZN13MuellerMatrixclEjj, symObjAddr: 0x944, symBinAddr: 0x100001004, symSize: 0x1F4 }
+  - { offset: 0x2E37, size: 0x8, addend: 0x0, symName: __ZN13MuellerMatrixC1ENS_4TypeE, symObjAddr: 0x508, symBinAddr: 0x100000BC8, symSize: 0x43C }
+  - { offset: 0x2E80, size: 0x8, addend: 0x0, symName: __ZN13MuellerMatrixC1Ev, symObjAddr: 0x464, symBinAddr: 0x100000B24, symSize: 0xA4 }
+  - { offset: 0x2EAB, size: 0x8, addend: 0x0, symName: __ZlsRSoRK12StokesVector, symObjAddr: 0x340, symBinAddr: 0x100000A00, symSize: 0x124 }
+  - { offset: 0x2EE8, size: 0x8, addend: 0x0, symName: __ZNK12StokesVectorclEj, symObjAddr: 0x27C, symBinAddr: 0x10000093C, symSize: 0xC4 }
+  - { offset: 0x2F22, size: 0x8, addend: 0x0, symName: __ZN12StokesVectorclEj, symObjAddr: 0x1B8, symBinAddr: 0x100000878, symSize: 0xC4 }
+  - { offset: 0x2FA4, size: 0x8, addend: 0x0, symName: __ZN12StokesVectorC1Edddd, symObjAddr: 0x164, symBinAddr: 0x100000824, symSize: 0x54 }
+  - { offset: 0x300F, size: 0x8, addend: 0x0, symName: __ZN12StokesVectorC1ENS_4TypeE, symObjAddr: 0x0, symBinAddr: 0x1000006C0, symSize: 0x164 }
+...

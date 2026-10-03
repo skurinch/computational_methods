@@ -1,0 +1,73 @@
+#include <stdexcept>
+
+inline StokesVector::StokesVector()
+    : x0(0.0), x1(0.0), x2(0.0), x3(0.0) {}
+
+inline StokesVector::StokesVector(StokesVector::Type type) {
+
+  if (type==Horizontal)
+    {x0=1.0; x1=1.0; x2=0.0; x3=0.0;}
+
+  else if (type==Vertical)
+    {x0=1.0; x1=-1.0; x2=0.0; x3=0.0;}
+
+  else if (type==Diagonal)
+    {x0=1.0; x1=0.0; x2=1.0; x3=0.0;}
+
+  else if (type==Antidiagonal)
+    {x0=1.0; x1=0.0; x2=-1.0; x3=0.0;}
+
+  else if (type==Right)
+    {x0=1.0; x1=0.0; x2=0.0; x3=1.0;}
+
+  else if (type==Left)
+    {x0=1.0; x1=0.0; x2=0.0; x3=-1.0;}
+
+}
+
+inline StokesVector::StokesVector(double x0,
+                                  double x1,
+                                  double x2,
+                                  double x3)
+    : x0(x0), x1(x1), x2(x2), x3(x3) {}
+
+inline double & StokesVector::operator() (unsigned int i) {
+
+  if (i > 3)
+    throw std::range_error("Index out of range");
+
+  return i==0 ? x0 :
+         i==1 ? x1 :
+         i==2 ? x2 : x3;
+}
+
+inline const double & StokesVector::operator() (unsigned int i) const {
+
+  if (i > 3)
+    throw std::range_error("Index out of range");
+
+  return i==0 ? x0 :
+         i==1 ? x1 :
+         i==2 ? x2 : x3;
+}
+
+inline std::ostream & operator << (std::ostream & o,
+                                   const StokesVector & v) {
+
+  return o << "[" << v(0) << std::endl
+           << " " << v(1) << std::endl
+           << " " << v(2) << std::endl
+           << " " << v(3) << "]";
+}
+
+inline StokesVector operator* (const StokesVector & v,
+                               const double & c) {
+
+  return StokesVector(c*v(0), c*v(1), c*v(2), c*v(3));
+}
+
+inline StokesVector operator* (const double & c,
+                               const StokesVector & v) {
+
+  return StokesVector(c*v(0), c*v(1), c*v(2), c*v(3));
+}

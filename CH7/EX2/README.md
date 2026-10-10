@@ -23,7 +23,7 @@ $$
 \boxed{x\sim\mathrm{Gamma}(3/2,1)}.
 $$
 
-Therefore, we can sample \(x\) using
+Therefore, we can sample $x$ using
 
 ```cpp
 std::gamma_distribution<double> gamma(1.5, 1.0);

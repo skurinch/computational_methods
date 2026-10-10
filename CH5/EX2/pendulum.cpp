@@ -4,6 +4,7 @@
 // pendulum, in order to obtain f(theta_max) at the points theta_max = PI/12, PI/6, PI/3, 2PI/3, 5PI/6, 11PI/12...
 
 #include "QatPlotWidgets/PlotView.h"
+#include "QatPlotWidgets/MultipleViewWindow.h"
 #include "QatPlotting/PlotProfile.h"
 #include "QatGenericFunctions/QuadratureRule.h"
 #include "QatGenericFunctions/SimpleIntegrator.h"
@@ -17,6 +18,7 @@
 #include <cmath>
 #include <iostream>
 #include <vector>
+#include <numbers>
 
 class PendulumFunction : public Genfun::AbsFunction
 {
@@ -57,7 +59,8 @@ int main(int argc, char **argv)
 
     // quadrature rule
     SimpsonsRule simpsonRule;
-
+    PlotProfile periodProfile;
+    
     // calculate f(theta_max)
     for (size_t i = 0; i < thetaMax.size(); ++i)
     {
@@ -67,7 +70,7 @@ int main(int argc, char **argv)
 
         double integral = simpson(f);
         double periodRatio = (2.0 / M_PI) * integral;
-
+	periodProfile.addPoint(thetaMax[i],periodRatio);
     }
 
     // set up the plot
@@ -85,17 +88,25 @@ int main(int argc, char **argv)
     rect.setYmin(0.9);
     rect.setYmax(5.0);
 
-    QMainWindow window;
+    MultipleViewWindow window;
     PlotView view(rect);
-    view.setBackgroundBrush(Qt::white);
-    view.xLabelTextEdit()->setText("phi");
-    view.xLabelTextEdit()->setAlignment(Qt::AlignHCenter);
-    view.xLabelTextEdit()->setTextColor(Qt::black);
-    view.yLabelTextEdit()->setText("f");
-    view.yLabelTextEdit()->setAlignment(Qt::AlignHCenter);
-    view.yLabelTextEdit()->setTextColor(Qt::black);
-    window.setCentralWidget(&view);
+    PlotView instructorsView({0.0,std::numbers::pi,0.0, 2.5});
 
+    for (PlotView  * v: {&view, &instructorsView}) {
+      v->setBackgroundBrush(Qt::white);
+      v->xLabelTextEdit()->setAlignment(Qt::AlignHCenter);
+      v->xLabelTextEdit()->insertPlainText("phi");
+      v->xLabelTextEdit()->setTextColor(Qt::black);
+      v->yLabelTextEdit()->setAlignment(Qt::AlignHCenter);
+      v->yLabelTextEdit()->setTextColor(Qt::black);
+    }
+    view.yLabelTextEdit()->insertPlainText("f");
+    instructorsView.yLabelTextEdit()->insertPlainText("Period ratio");
+
+    window.add(&view,"Integrands");
+    window.add(&instructorsView,"PeriodRatio");
+    instructorsView.add(&periodProfile);
+    
     // colors
     std::vector<QColor> colors = {
         Qt::red,
@@ -134,8 +145,11 @@ int main(int argc, char **argv)
         properties.brush.setColor(colors[j]);
         properties.drawSymbol = true;
         properties.symbolSize = 5;
-
         profile->setProperties(properties);
+	properties.symbolSize=8;
+	properties.brush.setColor("darkBlue");
+	properties.brush.setStyle(Qt::SolidPattern);
+	periodProfile.setProperties(properties);
 
 
         // sample the function

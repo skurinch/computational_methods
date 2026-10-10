@@ -1,4 +1,4 @@
-For this exercise, I changed the sampling method from direct Gamma sampling to Metropolis-Hastings MCMC.
+For this exercise, I changed the sampling method from direct Gamma sampling to MCMC.
 
 The chain samples the dimensionless variable
 

@@ -4,6 +4,7 @@
 #include "QatGenericFunctions/AbsFunction.h"
 #include "QatPlotWidgets/PlotView.h"
 #include "QatPlotting/PlotProfile.h"
+#include "QatPlotWidgets/CustomRangeDivider.h"
 #include <QApplication>
 #include <QMainWindow>
 #include <QImage>
@@ -229,14 +230,20 @@ int main(int argc, char **argv)
 
     PRectF rect;
     rect.setXmin(0.0);
-    rect.setXmax(6.0);
+    rect.setXmax(3.0);
     rect.setYmin(2700);
     rect.setYmax(4000);
 
     QMainWindow window;
     PlotView view(rect);
+
+    CustomRangeDivider rangeDivider;
+    rangeDivider.add(0.8, "S");
+    rangeDivider.add(1.8, "P");
+    view.setXRangeDivider(&rangeDivider);
+    
     view.setBackgroundBrush(Qt::white);
-    view.xLabelTextEdit()->setText("State");
+    view.xLabelTextEdit()->setText("Angular momentum L");
     view.xLabelTextEdit()->setAlignment(Qt::AlignHCenter);
     view.xLabelTextEdit()->setTextColor(Qt::black);
     view.yLabelTextEdit()->setText("Energy (MeV)");
@@ -255,11 +262,12 @@ int main(int argc, char **argv)
 
         profile->setProperties(properties);
 
-        double x1 = i + 0.2;
-        double x2 = i + 0.8;
+        double x1 = (i<3 ? 0.0:1.0) + 0.2;
 
-        profile->addPoint(x1, energies[i]);
-        profile->addPoint(x2, energies[i]);
+	for (int jPoint=0;jPoint<20;jPoint++) {
+	  double delta = 1.0/20.0;
+	  profile->addPoint(x1+jPoint*delta, energies[i]);
+	}
 
         view.add(profile);
     }

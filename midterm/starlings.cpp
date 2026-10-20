@@ -7,6 +7,8 @@
 #include <Inventor/nodes/SoDrawStyle.h>
 #include <Inventor/nodes/SoCoordinate3.h>
 #include <Inventor/nodes/SoPointSet.h>
+#include <Inventor/nodes/SoTranslation.h>
+#include <Inventor/nodes/SoSphere.h>
 #include <Inventor/nodes/SoCamera.h>
 #include <Inventor/sensors/SoTimerSensor.h>
 #include <QApplication>
@@ -45,7 +47,7 @@ double norm(const Vec2& v) {
 
 // define simulation parameters
 const int N = 1000;
-const double WORLD_SIZE = 1000.0;
+const double WORLD_SIZE = 100.0;
 
 const double VISUAL_RANGE = 40.0;
 const double PROTECTED_RANGE = 8.0;
@@ -66,6 +68,8 @@ const double BOTTOM_MARGIN = WORLD_SIZE - 200.0;
 // global rendering state
 std::vector<Vec2> pos(N);
 std::vector<Vec2> vel(N);
+
+std::vector<SoTranslation*> boidTranslations(N, nullptr);
 
 SoCoordinate3* coordinates = nullptr;
 SoPointSet* points = nullptr;
@@ -174,11 +178,10 @@ void updateBoids() {
     }
 }
 
-// update positions
+
 void updateDisplay() {
     for (int i = 0; i < N; ++i) {
-        coordinates->point.set1Value(
-            i,
+        boidTranslations[i]->translation.setValue(
             static_cast<float>(pos[i].x),
             static_cast<float>(pos[i].y),
             0.0f
@@ -214,29 +217,38 @@ int main(int argc, char** argv) {
     lightModel->model = SoLightModel::BASE_COLOR;
     root->addChild(lightModel);
 
+
+    // Sphere appearance
     SoMaterial* material = new SoMaterial;
-    material->diffuseColor.setValue(1.0f, 1.0f, 1.0f);
+    material->diffuseColor.setValue(0.2f, 0.8f, 1.0f);
+    material->specularColor.setValue(0.8f, 0.8f, 0.8f);
+    material->shininess = 0.6f;
     root->addChild(material);
 
-    SoDrawStyle* drawStyle = new SoDrawStyle;
-    drawStyle->style = SoDrawStyle::POINTS;
-    drawStyle->pointSize = 2.0f;
-    root->addChild(drawStyle);
-
-    coordinates = new SoCoordinate3;
+    // Create one sphere per boid
     for (int i = 0; i < N; ++i) {
-        coordinates->point.set1Value(
-            i,
+        SoSeparator* boidSep = new SoSeparator;
+
+        // Position of this boid
+        SoTranslation* translation = new SoTranslation;
+        translation->translation.setValue(
             static_cast<float>(pos[i].x),
             static_cast<float>(pos[i].y),
             0.0f
         );
-    }
-    root->addChild(coordinates);
 
-    points = new SoPointSet;
-    points->numPoints = N;
-    root->addChild(points);
+        boidTranslations[i] = translation;
+
+        // Sphere geometry
+        SoSphere* sphere = new SoSphere;
+        sphere->radius = 10.0f;
+
+        boidSep->addChild(translation);
+        boidSep->addChild(sphere);
+
+        root->addChild(boidSep);
+    }
+
 
     // viewer
     SoQtExaminerViewer* viewer =

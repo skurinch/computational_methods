@@ -4,3 +4,8 @@ pushes it away from birds that get too close, and alignment adjusts its velocity
 applied continuously to update each bird’s movement, producing collective flocking behavior from local interactions. For separation, the code compares each bird with every other bird and checks whether their distance falls within the protected range. 
 If another bird is too close, the code accumulates a repulsive vector pointing away from it. It adds the total 
 repulsion to the bird’s velocity.
+
+In terms of the visualization, I would still like to work on:
+- [ ] Apply the flocking algorithm to 3D vectors.
+- [ ] Add a background image or scenery to the flock.
+- [ ] Represent each bird in a more creative way, rather than as simple spheres.

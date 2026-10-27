@@ -252,7 +252,7 @@ int main(int argc, char** argv) {
 
     // viewer
     SoQtExaminerViewer* viewer = new SoQtExaminerViewer(&mainwin);
-
+    viewer->setDoubleBuffer(false);
     viewer->setSceneGraph(root);
     viewer->setBackgroundColor(SbColor(0.016f, 0.071f, 0.212f));
     viewer->show();

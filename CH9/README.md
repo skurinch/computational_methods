@@ -1,11 +1,7 @@
-## Let a photon strike a spherical raindrop...
-
 `PhotonGenerator` generates random photon wavelengths and impact positions, then calls `traceRay()` for each photon.
 1. It calculates entry refraction using `refract()` which uses Snell's law,
 2. an internal reflection using `reflect()` and `angleDegrees()`,
 3. and refraction as the photon exits.
-
-## main
 
 The `main()` function coordinates the simulation: 
 1. Initializes MPI and identifies each process.
@@ -14,7 +10,5 @@ The `main()` function coordinates the simulation:
 4. Runs the photon calculation on each process.
 5. Uses MPI_Reduce() to sum the local histograms on the master process.
 6. Finalizes MPI and, on the master process, opens the Qt window to display the sampled photons with `RainbowWidget`.
-
-## Visualization
 
 `wavelengthColor()` converts a wavelength in the visible range into an approximate RGB color.

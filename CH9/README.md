@@ -11,4 +11,4 @@ The `main()` function coordinates the simulation:
 5. Uses MPI_Reduce() to sum the local histograms on the master process.
 6. Finalizes MPI and, on the master process, opens the Qt window to display the sampled photons with `RainbowWidget`.
 
-`wavelengthColor()` converts a wavelength in the visible range into an [approximate RGB color](https://www.eureca.de/5116-1-Bruton-color-mapping.html).
+`wavelengthColor()` converts a wavelength into an [approximate RGB color](https://www.eureca.de/5116-1-Bruton-color-mapping.html).

@@ -23,30 +23,42 @@
 struct Vector {
     double x, y, z;
 
-    Vector add(const Vector& b) const {
+    // addition
+    Vector operator+(const Vector& b) const {
         return {x + b.x, y + b.y, z + b.z};
     }
 
-    Vector subtract(const Vector& b) const {
+    // subtraction
+    Vector operator-(const Vector& b) const {
         return {x - b.x, y - b.y, z - b.z};
     }
 
-    Vector mulitply(double a) const {
+    // multiplication
+    Vector operator*(double a) const {
         return {a*x, a*y, a*z};
     }
 
+    // product
     double dot(const Vector& b) const {
         return x*b.x + y*b.y + z*b.z;
     }
 
+    // magnitude
     double norm() const {
         return std::sqrt(dot(*this));
     }
 
+    // unit vector
     Vector unit() const {
-        return (*this)*(1.0/norm());
+        double magnitude = norm();
+
+        if (magnitude == 0.0)
+            return {0.0, 0.0, 0.0};
+
+        return (*this)*(1.0/magnitude);
     }
 };
+
 
 struct Photon {
     double wavelength;
@@ -147,28 +159,20 @@ public:
                 z = positionDist(engine);
             } while (y*y + z*z > 1.0);
 
-            Vector outgoing = traceRay(
-                wavelength, y, z, refractiveIndex
-            );
+            Vector outgoing = traceRay(wavelength, y, z, refractiveIndex);
 
             if (outgoing.norm() == 0.0) {
                 continue;
             }
 
-            double angle = angleDegrees(
-                Vector{1.0, 0.0, 0.0}, outgoing
-            );
+            double angle = angleDegrees(Vector{1.0, 0.0, 0.0}, outgoing);
 
             // Accumulate wavelength-angle histogram.
             if (angle >= 130.0 && angle <= 150.0) {
 
-                int iw = static_cast<int>(
-                    (wavelength - 400.0) / 300.0 * NWAVELENGTH
-                );
+                int iw = static_cast<int>((wavelength - 400.0) / 300.0 * NWAVELENGTH);
 
-                int ia = static_cast<int>(
-                    (angle - 130.0) / 20.0 * NANGLE
-                );
+                int ia = static_cast<int>((angle - 130.0) / 20.0 * NANGLE);
 
                 iw = std::min(NWAVELENGTH - 1, iw);
                 ia = std::min(NANGLE - 1, ia);
@@ -246,10 +250,9 @@ QColor wavelengthColor(double wavelength) {
 // Make rainbow image.
 class RainbowWidget : public QWidget {
 public:
-    RainbowWidget(const std::vector<Photon>& photons,
-                  QWidget *parent = nullptr)
-        : QWidget(parent), photons_(photons) {
-        resize(500, 400);
+    RainbowWidget(const std::vector<Photon>& photons, QWidget *parent = nullptr): 
+        QWidget(parent), photons_(photons) {
+            resize(500, 400);
     }
 
 protected:
@@ -302,9 +305,7 @@ protected:
 
         // plot each photon, colored by wavelength.
         for (const Photon& photon : photons_) {
-            double angle = angleDegrees(
-                Vector{1.0, 0.0, 0.0}, photon.outgoing
-            );
+            double angle = angleDegrees(Vector{1.0, 0.0, 0.0}, photon.outgoing);
 
             if (angle < 130.0 || angle > 150.0)
                 continue;
@@ -337,7 +338,7 @@ int main(int argc, char** argv) {
     MPI_Comm_size(MPI_COMM_WORLD, &NUMTASKS);
 
     // Simulation parameters
-    const long long N_TOTAL = 1000000000;
+    const long long N_TOTAL = 100000;
 
     // Divide the work between MPI processes.
     long long N_LOCAL = N_TOTAL / NUMTASKS;
@@ -348,15 +349,11 @@ int main(int argc, char** argv) {
 
     // Water dispersion data.
     std::vector<double> wavelengths = {
-        200, 250, 300, 350, 400, 450, 500, 550, 600,
-        650, 700, 750, 800, 850, 900, 950, 1000
+        200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800, 850, 900, 950, 1000
     };
 
-    std::vector<double> indices = {
-        1.396, 1.362, 1.349, 1.343, 1.339, 1.337,
-        1.335, 1.333, 1.332, 1.331, 1.331, 1.330,
-        1.329, 1.329, 1.328, 1.327, 1.327
-    };
+    std::vector<double> indices = {1.396, 1.362, 1.349, 1.343, 1.339, 1.337, 1.335, 
+        1.333, 1.332, 1.331, 1.331, 1.330, 1.329, 1.329, 1.328, 1.327, 1.327};
 
     Interpolator<double> interpolator;
 
@@ -367,16 +364,7 @@ int main(int argc, char** argv) {
     // Generate photons
     PhotonGenerator generator(42 + TASKID);
 
-    generator.compute(
-        N_LOCAL,
-        interpolator,
-        TASKID == MASTER,
-        100000
-    );
-
-    std::cout << "Task " << TASKID
-              << " traced " << N_LOCAL
-              << " photons." << std::endl;
+    generator.compute(N_LOCAL, interpolator, TASKID == MASTER, 100000);
 
     // Combine across MPI processors
     std::vector<unsigned long long> globalHistogram(NBINS, 0);

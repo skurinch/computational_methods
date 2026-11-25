@@ -12,3 +12,7 @@ The `main()` function coordinates the simulation:
 6. Finalizes MPI and, on the master process, opens the Qt window to display the sampled photons with `RainbowWidget`.
 
 `wavelengthColor()` converts a wavelength into an [approximate RGB color](https://www.eureca.de/5116-1-Bruton-color-mapping.html).
+
+There rainbow falls above a scattering angle of ~140 degrees.
+
+Currently, my program can simulate all of the given number of photons, but samples subset of them for the visualization.
